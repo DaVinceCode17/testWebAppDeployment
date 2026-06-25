@@ -1,4 +1,4 @@
-package com.mycompany.sign.in.web_app.resources;
+package jdbcapp;
 
 import java.io.*;
 import java.util.List;
@@ -17,6 +17,12 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
+        
+        // DEBUG: Print all parameters
+        System.out.println("=== FORM SUBMITTED ===");
+        System.out.println("firstName: " + request.getParameter("firstName"));
+        System.out.println("lastName: " + request.getParameter("lastName"));
+        System.out.println("age: " + request.getParameter("age"));
         
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
@@ -41,13 +47,17 @@ public class MainServlet extends HttpServlet {
         out.println("<div class='container'>");
         out.println("<h2>Save Result</h2>");
         
+        // Check if parameters are null
         if (firstName == null || lastName == null || ageStr == null || 
             firstName.trim().isEmpty() || lastName.trim().isEmpty() || ageStr.trim().isEmpty()) {
             out.println("<p class='error'>❌ All fields are required!</p>");
+            System.out.println("ERROR: Missing fields!");
         } else {
             try {
                 int age = Integer.parseInt(ageStr);
+                System.out.println("Parsed age: " + age);
                 boolean success = userDAO.addUser(firstName.trim(), lastName.trim(), age);
+                System.out.println("Add user result: " + success);
                 if (success) {
                     out.println("<p class='message'>✅ User saved successfully to database!</p>");
                 } else {
@@ -55,6 +65,12 @@ public class MainServlet extends HttpServlet {
                 }
             } catch (NumberFormatException e) {
                 out.println("<p class='error'>❌ Age must be a valid number!</p>");
+                System.out.println("ERROR: Invalid age format!");
+                e.printStackTrace();
+            } catch (Exception e) {
+                out.println("<p class='error'>❌ Error: " + e.getMessage() + "</p>");
+                System.out.println("ERROR: " + e.getMessage());
+                e.printStackTrace();
             }
         }
         
