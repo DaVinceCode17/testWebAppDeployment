@@ -60,6 +60,19 @@ public class DatabaseConnection {
         
         try {
             System.out.println("🔄 Attempting to connect to database...");
+            System.out.println("   URL: " + url);
+            System.out.println("   User: " + user);
+            System.out.println("   Password: " + (password == null || password.isEmpty() ? "(empty)" : "********"));
+            
+            if (url == null || url.isEmpty()) {
+                System.err.println("❌ DB_URL is null or empty!");
+                return null;
+            }
+            if (user == null || user.isEmpty()) {
+                System.err.println("❌ DB_USER is null or empty!");
+                return null;
+            }
+            
             connection = DriverManager.getConnection(url, user, password);
             System.out.println("✅ Database connected successfully!");
             System.out.println("   Connected to: " + url);
@@ -67,6 +80,7 @@ public class DatabaseConnection {
             System.err.println("❌ Connection failed! Check your DB credentials.");
             System.err.println("   Error: " + e.getMessage());
             e.printStackTrace();
+            return null;
         }
         
         return connection;
