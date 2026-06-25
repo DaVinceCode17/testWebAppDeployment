@@ -1,0 +1,5 @@
+com\mycompany\sign\in\web_app\resources\User.class
+com\mycompany\sign\in\web_app\resources\UserDAO.class
+com\mycompany\sign\in\web_app\resources\DatabaseConnection.class
+com\mycompany\sign\in\web_app\resources\MainServlet.class
+com\mycompany\sign\in\web_app\resources\ViewUsersServlet.class
